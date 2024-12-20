@@ -176,7 +176,7 @@ export default function Header() {
           </li>
         </ul>
         {/* Parallelogram */}
-        <div className="flex flex-col bg-gray w-28 md:w-36 lg:w-60 h-12 md:h-14 lg:h-20 skew-x-45 mr-8 md:mr-10 lg:mr-0 px-4 md:px-6 lg:px-12 justify-between items-center">
+        <div className="flex flex-col bg-gray w-28 md:w-36 lg:w-60 h-12 md:h-14 lg:h-20 skew-x-45 mr-8 md:mr-10 lg:mr-20 px-4 md:px-6 lg:px-12 justify-between items-center">
           <div className="flex flex-row my-auto">
             {isAuth ? (
               <Link

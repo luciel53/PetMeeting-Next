@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Polices */
+@font-face {
+	font-family: 'Mina-Regular';
+	src: url('/fonts/Mina-Regular.ttf') format('truetype');
+}
+
+/* Root variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
 }
 
 @media (prefers-color-scheme: dark) {

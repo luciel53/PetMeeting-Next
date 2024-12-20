@@ -22,6 +22,13 @@ export default {
         green: "#39731e",
         lightgreen: "#d7f5c9",
       },
+      fontFamily: {
+        mina: ['Mina-Regular', 'Sans-Serif']
+      },
+      skew: {
+        '45': '45deg',
+        '20': '20deg',
+      },
     },
   },
   plugins: [],
