@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header"
 import Footer from "./components/Footer";
@@ -13,10 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body
-        className="antialiased flex flex-col justify-between h-screen font-mina"
+        className="antialiased flex flex-col justify-between min-h-screen font-mina"
       >
         <Header />
-        <main>
+        <main className="min-h-screen">
         {children}
         </main>
         <Footer />

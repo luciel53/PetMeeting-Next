@@ -23,7 +23,7 @@ export default function Home() {
   // }, []);
 
   return (
-    <section className="container flex flex-col min-h-screen lg:w-full mx-auto mb-0">
+    <section className="container flex flex-col min-h-screen lg:w-full mx-auto mb-5">
       <div className="container flex flex-col mt-20 lg:w-[96rem] mx-auto">
         {/* Welcome Accueil */}
         <article className="flex flex-wrap md:flex-row justify-between lg: items-center lg:mx-8">
@@ -36,18 +36,17 @@ export default function Home() {
             />
           </div>
           {/* Welcome bubble */}
-          <div className="w-64 md:w-[50%] mx-auto md:mr-8 lg:mr-0 h-[60%] mt-0 md:mt-4 lg:mt-16 p-4 md:p-4 lg:p-4 bg-white shadow-lg rounded-3xl md:rounded-lg lg:rounded-xl xl:rounded-full text-center animate-fade-down animate-duration-[800ms] animate-delay-500 animate-ease-linear">
+          <div className="w-64 md:w-[50%] mx-auto md:mr-8 lg:mr-0 h-[60%] mt-0 md:mt-4 lg:mt-16 p-4 md:p-4 lg:p-4 bg-white shadow-lg rounded-3xl md:rounded-lg lg:rounded-xl text-center animate-fade-down animate-duration-[800ms] animate-delay-500 animate-ease-linear">
             {/* <div className="relative hidden lg:block lg:left-7 lg:top-52 lg:w-6 lg:h-5 bg-white shadow-sm"></div> */}
             <h1 className="mt-0 mb-4 text-md md:text-md lg:text-3xl text-purple">
-              Bienvenue sur PetMeeting!
+              PetMeeting: Trouvez un reproducteur de qualité
             </h1>
-            <p className="text-sm md:text-xs lg:text-lg italic px-0 md:px-2 lg:px-6">
-              "Cet outil est à disposition des éleveurs de chats pour les aider
-              dans leur travail de sélection, en facilitant la mise en relation
-              entre les éleveurs sérieux et passionnés. PetMeeting permet de
-              trouver facilement une saillie extérieure de qualité proche de
-              chez soi. Pour reproducteurs LOOF, sélectionnés, testés, vaccinés,
-              etc..."
+            <p className="text-sm md:text-xs lg:text-lg px-0 md:px-2 lg:px-6">
+              Cet outil est à disposition des <strong>éleveurs de chats LOOF</strong> pour les aider
+              dans leur travail de <strong>sélection génétique</strong>, en facilitant la mise en relation
+              entre les <strong className=" font-normal">éleveurs félins</strong> <em>sérieux et passionnés</em>. PetMeeting permet de
+              trouver facilement une <strong>saillie extérieure</strong> de <em>qualité</em> proche de
+              chez soi. Réservé aux <strong>reproducteurs LOOF</strong>, <span className=" font-bold">sélectionnés</span>, <span className=" font-bold">testés</span>, <span className=" font-bold">vaccinés</span> et <span className=" font-bold">en âge de reproduire</span>.
             </p>
           </div>
           {/* BG de la semaine */}

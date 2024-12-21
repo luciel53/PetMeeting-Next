@@ -140,15 +140,15 @@ export default function Header() {
           )}
           <li className="pt-8 py-4 md:py-0 md:mr-6 hover:animate-wiggle relative">
             <Link
-              href="/Publier"
+              href="/members"
               className={`text-sm lg:text-xl uppercase font-semibold rounded-lg px-2 ml-1 w-full relative z-20 ${
-                pathname === "/Members" ? "active" : ""
+                pathname === "/members" ? "active" : ""
               }`}
             >
-              Publier
+              Membres
             </Link>
 
-            {pathname === "/Membres" && (
+            {pathname === "/members" && (
               <img
                 src="images/icons/paw.png"
                 alt="paw"
@@ -158,15 +158,15 @@ export default function Header() {
           </li>
           <li className="pt-8 py-4 md:py-0 md:mr-6 hover:animate-wiggle relative">
             <Link
-              href="/Publier"
+              href="/contact"
               className={`text-sm lg:text-xl uppercase font-semibold rounded-lg px-2 ml-1 w-full relative z-20 ${
-                pathname === "/Contact" ? "active" : ""
+                pathname === "/contact" ? "active" : ""
               }`}
             >
               Contact
             </Link>
 
-            {pathname === "/Contact" && (
+            {pathname === "/contact" && (
               <img
                 src="images/icons/paw.png"
                 alt="paw"
