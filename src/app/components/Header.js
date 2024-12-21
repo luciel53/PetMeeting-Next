@@ -191,7 +191,7 @@ export default function Header() {
                 />
               </Link>
             ) : (
-              <Link href="/Login" className="flex" aria-label="Login">
+              <Link href="/login" className="flex" aria-label="Login">
                 <img
                   src="images/icons/connection.png"
                   className="-skew-x-45 w-9 lg:w-14 mr-2 hover:opacity-70"
