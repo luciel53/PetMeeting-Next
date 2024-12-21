@@ -180,7 +180,7 @@ export default function Header() {
           <div className="flex flex-row my-auto">
             {isAuth ? (
               <Link
-                to={`/Profile/${userId.toString()}`}
+                href={`/Profile/${userId.toString()}`}
                 className="flex"
                 aria-label="Page d'accueil de PetMeeting"
               >
@@ -208,7 +208,7 @@ export default function Header() {
                 />
               </Link>
             ) : (
-              <Link href="/Register" className="flex" aria-label="Register">
+              <Link href="/register" className="flex" aria-label="Register">
                 <img
                   src="images/icons/register.png"
                   className="-skew-x-45 w-10 lg:w-14 hover:opacity-70"
