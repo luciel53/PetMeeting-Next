@@ -102,15 +102,15 @@ export default function Header() {
         >
           <li className="pt-8 py-4 md:py-0 md:mr-6 hover:animate-wiggle relative">
             <Link
-              href="/Annonces"
+              href="/offers"
               className={`text-sm lg:text-xl uppercase font-semibold rounded-lg px-2 ml-1 w-full relative z-20 ${
-                pathname === "/Annonces" ? "active" : ""
+                pathname === "/offers" ? "active" : ""
               }`}
             >
               annonces
             </Link>
 
-            {pathname === "/Annonces" && (
+            {pathname === "/offers" && (
               <img
                 src="images/icons/paw.png"
                 alt="paw"

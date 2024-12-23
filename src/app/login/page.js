@@ -88,7 +88,7 @@ export default function Login() {
           )}
         </div>
         <Button text="Connexion" />
-        <hr class="h-px my-8 bg-gray-200 border-0 bg-darkgray"></hr>
+        <hr className="h-px my-8 bg-gray-200 border-0 bg-darkgray"></hr>
         <p className=" flex flex-row mx-auto">
           Pas de compte?{" "}
           <Link
