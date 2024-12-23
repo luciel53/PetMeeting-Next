@@ -418,7 +418,7 @@ export default function Publier() {
               </div>
               <div className=" flex flex-col justify-between items-center w-80 md:w-[80%] md:h-[600px] px-10 pb-4 mb-4 bg-white rounded-3xl shadow-2xl">
                 {/* Pictures */}
-                <div className="w-80">
+                <div className="w-80 md:w-96 xl:w-[80%]">
                   <div className="flex flex-col justify-center mx-10 mb-3 text-sm md:text-lg">
                     <h3 className="text-2xl text-center mt-3">
                       Infos complémentaires 🔍:
@@ -471,7 +471,7 @@ export default function Publier() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center mx-16 md:mx-32 mb-3 text-sm md:text-lg">
+                  <div className="flex flex-col justify-center mx-16 mb-3 text-sm md:text-lg">
                     <h3 className="text-2xl text-center mt-3 mb-2">
                       Photos 📸:{" "}
                     </h3>
