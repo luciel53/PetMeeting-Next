@@ -13,10 +13,10 @@ export default function Contact() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const initialFormData = {
-    name: "" || searchParams.get("name"),
-    email: "" || searchParams.get("email"),
-    topic: "" || searchParams.get("topic"),
-    message: "" || searchParams.get("message"),
+    name: searchParams.get("name") || "",
+    email: searchParams.get("email") || "",
+    topic: searchParams.get("topic") || "",
+    message: searchParams.get("message") || "",
   };
 
   const [formData, setFormData] = useState(initialFormData);

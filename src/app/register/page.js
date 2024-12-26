@@ -2,10 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-// import { NavLink, Navigate } from "react-router-dom";
 import Button from "../components/Button";
-// import lock from "../assets/images/icons/lock.png";
-// import userMini from "../assets/images/icons/user-mini.png";
 import axios from "axios";
 
 export default function Register() {
@@ -35,13 +32,13 @@ export default function Register() {
   console.log(handleSubmit);
 
   return (
-    <div className="container flex flex-col justify-center mx-auto md:mx-auto w-[88%] md:w-[55%] lg:w-[30%] p-5 md:p-12 md:mt-60 lg:mb-10 lg:mt-40 bg-white rounded-3xl shadow-2xl text-sm md:text-lg animate-fade">
+    <div className="container flex flex-col justify-center mx-auto w-[88%] md:w-[55%] lg:w-[30%] p-5 md:p-12 mt-24 md:mt-60 lg:mb-10 lg:mt-40 bg-white rounded-3xl shadow-2xl text-sm md:text-lg animate-fade">
       <form onSubmit={handleSubmit}>
         <h2 className="text-lg md:text-2xl text-darkdarkgray text-center pb-7">
           Créez un compte:
         </h2>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/user-mini.png" className="absolute -ml-80 mb-4" alt="lock"></img>
+          <img src="images/icons/user-mini.png" className=" mb-4" alt="lock"></img>
           <input
             type="text"
             name="username"
@@ -53,7 +50,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/arobase.png" className="absolute -ml-80 mb-4" alt="lock"></img>
+          <img src="images/icons/arobase.png" className=" mb-4" alt="lock"></img>
           <input
             type="email"
             name="email"
@@ -65,7 +62,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/lock.png" className="absolute -ml-80 mb-4" alt="lock"></img>
+          <img src="images/icons/lock.png" className=" mb-4" alt="lock"></img>
           <input
             type="password"
             name="password"
@@ -77,7 +74,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/lock.png" className="absolute -ml-80 mb-4" alt="lock"></img>
+          <img src="images/icons/lock.png" className=" mb-4" alt="lock"></img>
           <input
             type="password"
             name="confirmPassword"
