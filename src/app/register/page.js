@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "../components/Button";
 import axios from "axios";
 
@@ -17,15 +18,25 @@ export default function Register() {
     try {
       if (password !== confirmPassword) {
         setError("Ce n'est pas le bon mot de passe");
-        return error;
+        return;
       }
 
       const newUser = { username, email, password };
       console.log(newUser);
-      await axios.post("http://localhost:8000/register/", newUser);
-      return <Navigate to="/login" />;
+      const response = await axios.post("http://localhost:8000/auth/register/", newUser);
+
+      if (response.status === 201) {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        window.location.pathname = '/login';
+      }
     } catch (err) {
+      console.log("Error object:", err);
+      if (err.response && err.response.data) {
       setError(err.response.data.error);
+      }
     }
   };
 
