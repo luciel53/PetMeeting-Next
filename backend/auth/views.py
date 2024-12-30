@@ -1,4 +1,7 @@
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth import authenticate
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -7,18 +10,38 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 # from channels.db import database_sync_to_async
 
-from django.conf import settings
+# from django.conf import settings
 
 
 # login class
-class LoginView(APIView):
-    permission_classes = (IsAuthenticated, )
+# class LoginView(APIView):
+#     permission_classes = (IsAuthenticated, )
 
-    def get(self, request):
-        content = {'message':
-                   'Welcome to the JWT Authentication page using React\
-                    Js and Django!'}
-        return Response(content)
+#     def get(self, request):
+#         content = {'message':
+#                    'Welcome to the JWT Authentication page using React\
+#                     Js and Django!'}
+#         return Response(content)
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """ Use TokenObtainPairView to generates access and refresh tokens """
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # check user identifiants
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            # if authenticated , generates a token
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+            })
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class LogoutView(APIView):

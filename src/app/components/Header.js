@@ -4,57 +4,53 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import axios from "axios";
-// import userIcon from "/images/icons/user.svg";
-// import messagesIcon from "/images/icons/messages.svg";
-// import logoutIcon from "/images/icons/logout.svg";
-// import registerIcon from "/images/icons/register.png";
-// import connectionIcon from "/images/icons/connection.png";
-// import paw from "/images/icons/paw.png";
-// import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [unconnectedIcons, setUnconnectedIcons] = useState(false);
   const [userId, setUserId] = useState("1");
-  //   const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const pathname = usePathname();
 
   /* To manage the authentication */
   const [isAuth, setIsAuth] = useState(false);
 
-  //   useEffect(() => {
-  //     if (localStorage.getItem("access_token") !== null) {
-  //       setIsAuth(true);
-  //       const token = localStorage.getItem("access_token");
-  //       try {
-  //         const decodedToken = jwtDecode(token);
-  //         setUserId(decodedToken.user_id);
-  //         fetchUsernameByUserId(decodedToken.user_id);
-  //       } catch (error) {
-  //         console.error("Error decoding token", error);
-  //       }
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (localStorage.getItem("access_token") !== null) {
+      setIsAuth(true);
+      const token = localStorage.getItem("access_token");
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserId(decodedToken.user_id);
+        fetchUsernameByUserId(decodedToken.user_id);
+      } catch (error) {
+        console.error("Error decoding token", error);
+      }
+    }
+  }, []);
 
   // set the auth to false if disconnected
-  //   const updateIsAuthLogout = () => {
-  //     setIsAuth(false);
-  //   };
+  const updateIsAuthLogout = () => {
+    setIsAuth(false);
+  };
 
-  //   useEffect(() => {
-  //     if (!isAuth) {
-  //       setUsername("");
-  //     }
-  //   }, [isAuth]);
+  useEffect(() => {
+    if (!isAuth) {
+      setUsername("");
+    }
+  }, [isAuth]);
 
-  //   const fetchUsernameByUserId = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8000/users/${userId}/`);
-  //       setUsername(response.data.username);
-  //     } catch (error) {
-  //       console.log("Error fetching username", error);
-  //     }
-  //   };
+  const fetchUsernameByUserId = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/users/${userId}/`
+      );
+      setUsername(response.data.username);
+    } catch (error) {
+      console.log("Error fetching username", error);
+    }
+  };
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -64,21 +60,25 @@ export default function Header() {
     }
   }
 
-  //   const handleLogout = async () => {
-  //     try {
-  //       localStorage.clear();
-  //       axios.defaults.headers.common["Authorization"] = null;
-  //       updateIsAuthLogout();
-  //       window.href = "/login";
-  //       console.log("You're disconnected");
-  //     } catch (error) {
-  //       console.log("Logout doesn't work", error);
-  //     }
-  //   };
+  // to manage the logout
+  const handleLogout = async () => {
+    try {
+      localStorage.clear();
+      axios.defaults.headers.common["Authorization"] = null;
+      updateIsAuthLogout();
+      window.href = "/login";
+      console.log("You're disconnected");
+    } catch (error) {
+      console.log("Logout doesn't work", error);
+    }
+  };
 
   return (
     <header className=" flex flex-row justify-between items-center bg-purple z-50 fixed top-0 w-full shadow-xl">
-      <nav id="header-nav" className="bg-purple mx-auto p-0 flex flex-row justify-between w-full items-center ">
+      <nav
+        id="header-nav"
+        className="bg-purple mx-auto p-0 flex flex-row justify-between w-full items-center "
+      >
         {/* Logo */}
         <div>
           <Link
@@ -121,15 +121,15 @@ export default function Header() {
           {isAuth && (
             <li className="pt-8 py-4 md:py-0 md:mr-6 hover:animate-wiggle relative">
               <Link
-                href="/Publier"
+                href="/publish"
                 className={`text-sm lg:text-xl uppercase font-semibold rounded-lg px-2 ml-1 w-full relative z-20 ${
-                  pathname === "/Publier" ? "active" : ""
+                  pathname === "/publish" ? "active" : ""
                 }`}
               >
                 Publier
               </Link>
 
-              {pathname === "/Publier" && (
+              {pathname === "/publish" && (
                 <img
                   src="images/icons/paw.png"
                   alt="paw"
@@ -200,7 +200,7 @@ export default function Header() {
               </Link>
             )}
             {isAuth ? (
-              <Link to="messagerie" className="flex" aria-label="messagerie">
+              <Link href="messagerie" className="flex" aria-label="messagerie">
                 <img
                   src="images/icons/messages.svg"
                   className="-skew-x-45 w-5 md:w-6 lg:w-8 hover:opacity-70"
@@ -219,7 +219,7 @@ export default function Header() {
             {isAuth && (
               <Link href="/" className="flex" aria-label="logout">
                 <img
-                  src="images/logout.svg"
+                  src="images/icons/logout.svg"
                   className="-skew-x-45 w-5 md:w-6 lg:w-8 hover:opacity-70 ml-4"
                   alt="Icône de profil utilisateur"
                   onClick={handleLogout}

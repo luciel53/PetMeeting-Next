@@ -20,10 +20,11 @@ export default function Login() {
 
     try {
       //create post request
-      const { data } = await axios.post("http://localhost:8000/token/", user, {
+      const { data } = await axios.post("http://localhost:8000/auth/token/", user, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
+      console.log("requête envoyée avec succès!!!", data);
 
       // initialize access and refresh token in localstorage
       localStorage.clear();
