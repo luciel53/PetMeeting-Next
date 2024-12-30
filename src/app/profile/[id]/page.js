@@ -1,14 +1,17 @@
+"use client";
+
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
-  const router = useRouter();
-  const { id } = router.query;
+  const { id } = useParams();
+  // const { id } = router.query;
   const [profile, setProfile] = useState(null);
   const [isEditEmail, setIsEditEmail] = useState(false);
   const [isEditLocation, setIsEditLocation] = useState(false);
@@ -55,9 +58,9 @@ export default function Profile() {
   const fetchUsernameByUserId = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/users/${userId}/`
+        `http://localhost:8000/users/profile/${userId}/`
       );
-      console.log(response.data);
+      console.log("USER:::::", response.data);
       setUsername(response.data.username);
     } catch (error) {
       console.log("Error fetching username", error);
@@ -90,9 +93,9 @@ export default function Profile() {
           `http://localhost:8000/users/${id}/`
         );
         // get the offers by id user
-        const responseOffersByUser = await axios.get(
-          `http://localhost:8000/offers/offers_by_user/${id}/`
-        );
+        // const responseOffersByUser = await axios.get(
+        //   `http://localhost:8000/offers/offers_by_user/${id}/`
+        // );
 
         // //authorize access with token
         // axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("access_token")}`;
@@ -100,14 +103,14 @@ export default function Profile() {
         // store the profiles data in a variable
         const profiles = response.data;
         // store the offers data of the user in a variable
-        const OffersByUser = responseOffersByUser.data;
-        console.log(responseUser.data);
-        console.log(OffersByUser);
+        // const OffersByUser = responseOffersByUser.data;
+        // console.log(responseUser.data);
+        // console.log(OffersByUser);
         // set the email address of the user
         setUserEmail(responseUser.data.email);
 
         // set the offers by user
-        setCatsOffers(OffersByUser);
+        // setCatsOffers(OffersByUser);
         console.log(profiles);
         console.log(userEmail);
         // filter the users by id
@@ -156,247 +159,247 @@ export default function Profile() {
     }
   };
 
-  const handleDelete = async (offerId) => {
-    let newAccessToken;
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await axios.delete(
-        `http://localhost:8000/offers/offers/${offerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Inclure le jeton JWT dans l'en-tête Authorization
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      // update offers list after delete
-      setCatsOffers(catsOffers.filter((offer) => offer.id !== offerId));
-    } catch (error) {
-      // check if error is because of an invalid or expired token
-      if (error.response && error.response.status === 401) {
-        // refresh token
-        try {
-          newAccessToken = await refreshToken();
-          // retry request with new access token
-          const response = await axios.delete(
-            `http://localhost:8000/offers/offers/${offerId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`, // Inclure le jeton JWT dans l'en-tête Authorization
-                "Content-Type": "application/json",
-              },
-              withCredentials: true,
-            }
-          );
-          // update offers list after delete
-          setCatsOffers(catsOffers.filter((offer) => offer.id !== offerId));
-        } catch (refreshError) {
-          console.error("Error deleting offers: ", refreshError);
-        }
-      } else {
-        console.error("Error deleting offer: ", error);
-      }
-    }
-  };
+  // const handleDelete = async (offerId) => {
+  //   let newAccessToken;
+  //   try {
+  //     const token = localStorage.getItem("access_token");
+  //     const response = await axios.delete(
+  //       `http://localhost:8000/offers/offers/${offerId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Inclure le jeton JWT dans l'en-tête Authorization
+  //           "Content-Type": "application/json",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     // update offers list after delete
+  //     setCatsOffers(catsOffers.filter((offer) => offer.id !== offerId));
+  //   } catch (error) {
+  //     // check if error is because of an invalid or expired token
+  //     if (error.response && error.response.status === 401) {
+  //       // refresh token
+  //       try {
+  //         newAccessToken = await refreshToken();
+  //         // retry request with new access token
+  //         const response = await axios.delete(
+  //           `http://localhost:8000/offers/offers/${offerId}`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${newAccessToken}`, // Inclure le jeton JWT dans l'en-tête Authorization
+  //               "Content-Type": "application/json",
+  //             },
+  //             withCredentials: true,
+  //           }
+  //         );
+  //         // update offers list after delete
+  //         setCatsOffers(catsOffers.filter((offer) => offer.id !== offerId));
+  //       } catch (refreshError) {
+  //         console.error("Error deleting offers: ", refreshError);
+  //       }
+  //     } else {
+  //       console.error("Error deleting offer: ", error);
+  //     }
+  //   }
+  // };
 
-  const handleSaveEmail = async () => {
-    try {
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          email: changedMail,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Email update response: ", response.data);
-      if (response.status === 200) {
-        setIsEditEmail(false);
-        setUserEmail(changedMail);
-      }
-    } catch (error) {
-      console.error("Error saving email", error);
-    }
-  };
+  // const handleSaveEmail = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         email: changedMail,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     console.log("Email update response: ", response.data);
+  //     if (response.status === 200) {
+  //       setIsEditEmail(false);
+  //       setUserEmail(changedMail);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving email", error);
+  //   }
+  // };
 
-  const handleSaveBirthdate = async () => {
-    try {
-      console.log("quelle date?????", changedBirthdate);
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          birthdate: changedBirthdate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsEditBirthdate(false);
-        setUserBirthdate(changedBirthdate);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          birthdate: changedBirthdate,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving birthdate", error);
-    }
-  };
+  // const handleSaveBirthdate = async () => {
+  //   try {
+  //     console.log("quelle date?????", changedBirthdate);
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         birthdate: changedBirthdate,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setIsEditBirthdate(false);
+  //       setUserBirthdate(changedBirthdate);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         birthdate: changedBirthdate,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving birthdate", error);
+  //   }
+  // };
 
-  const handleSaveLocation = async () => {
-    try {
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          location: changedLocation,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsEditLocation(false);
-        setUserLocation(changedLocation);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          location: changedLocation,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving location", error);
-    }
-  };
+  // const handleSaveLocation = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         location: changedLocation,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setIsEditLocation(false);
+  //       setUserLocation(changedLocation);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         location: changedLocation,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving location", error);
+  //   }
+  // };
 
-  const handleSaveBio = async () => {
-    try {
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          bio: changedBio,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsEditBio(false);
-        setUserBio(changedBio);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          bio: changedBio,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving location", error);
-    }
-  };
+  // const handleSaveBio = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         bio: changedBio,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setIsEditBio(false);
+  //       setUserBio(changedBio);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         bio: changedBio,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving location", error);
+  //   }
+  // };
 
-  const handleSaveWebsite = async () => {
-    try {
-      console.log("quel site?????", changedWebsite);
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          external_link: changedWebsite,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsEditWebsite(false);
-        setUserWebsite(changedWebsite);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          external_link: changedWebsite,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving website", error);
-    }
-  };
+  // const handleSaveWebsite = async () => {
+  //   try {
+  //     console.log("quel site?????", changedWebsite);
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         external_link: changedWebsite,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setIsEditWebsite(false);
+  //       setUserWebsite(changedWebsite);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         external_link: changedWebsite,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving website", error);
+  //   }
+  // };
 
-  const handleSaveFacebook = async () => {
-    try {
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          facebook_link: changedFacebook,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsEditFacebook(false);
-        setUserFacebook(changedFacebook);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          facebook_link: changedFacebook,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving facebook link", error);
-    }
-  };
+  // const handleSaveFacebook = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         facebook_link: changedFacebook,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setIsEditFacebook(false);
+  //       setUserFacebook(changedFacebook);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         facebook_link: changedFacebook,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving facebook link", error);
+  //   }
+  // };
 
-  const handleSaveAvatar = async () => {
-    try {
-      console.log(changedAvatar);
-      const accessToken = localStorage.getItem("access_token");
-      const response = await axios.put(
-        "http://localhost:8000/users/profile/update/",
-        {
-          avatar: changedAvatar,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Avatar update response: ", response.data);
-      if (response.status === 200) {
-        setIsEditAvatar(false);
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          avatar: changedAvatar,
-        }));
-      }
-    } catch (error) {
-      console.error("Error saving avatar", error);
-    }
-  };
+  // const handleSaveAvatar = async () => {
+  //   try {
+  //     console.log(changedAvatar);
+  //     const accessToken = localStorage.getItem("access_token");
+  //     const response = await axios.put(
+  //       "http://localhost:8000/users/profile/update/",
+  //       {
+  //         avatar: changedAvatar,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+  //     console.log("Avatar update response: ", response.data);
+  //     if (response.status === 200) {
+  //       setIsEditAvatar(false);
+  //       setProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         avatar: changedAvatar,
+  //       }));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving avatar", error);
+  //   }
+  // };
 
-  console.log("offers:::", catsOffers);
+  // console.log("offers:::", catsOffers);
 
   return (
     <>
@@ -701,7 +704,7 @@ export default function Profile() {
           {/* Avatar */}
           <div className="flex flex-row">
             <>
-              <p className="flex flex-row text-lg ml-2 mt-0 mb-4">
+              <div className="flex flex-row text-lg ml-2 mt-0 mb-4">
                 {profile ? (
                   <>
                     {isOwner && isEditAvatar ? (
@@ -770,12 +773,12 @@ export default function Profile() {
                 ) : (
                   <p>Chargement...</p>
                 )}
-              </p>
+              </div>
             </>
           </div>
         </div>
         {/* Offers list */}
-        <div className="container w-[988px] h-96 flex flex-col bg-white rounded-3xl shadow-lg pb-4 mr-5 ">
+        {/* <div className="container w-[988px] h-96 flex flex-col bg-white rounded-3xl shadow-lg pb-4 mr-5 ">
           <h3 className="mx-auto mt-4 mb-8 text-2xl">
             {connectedUser ? "Mes annonces" : "Annonces"}
           </h3>
@@ -846,7 +849,7 @@ export default function Profile() {
               ))}
             </table>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

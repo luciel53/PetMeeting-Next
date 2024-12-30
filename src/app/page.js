@@ -30,7 +30,7 @@ export default function Home() {
           {/* Lima picture */}
           <div className="md:w-[20%]  animate-fade-right animate-duration-[800ms] animate-ease-linear">
             <img
-              src="//chat-bengal.png"
+              src="/images/chat-bengal.png"
               className="w-28 md:w-[100%] lg:w-[100%]"
               alt="chat de race bengal"
             />
