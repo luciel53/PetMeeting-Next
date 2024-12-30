@@ -166,7 +166,7 @@ export default function Publier() {
       <div className="container flex flex-col min-h-screen mx-auto animate-fade ">
         <div className="container flex flex-row mx-auto mb-6">
           <img
-            src="images/icons/add.png"
+            src="/images/icons/add.png"
             className="mt-4 md:mt-0.5 z-2 w-6 h-6 ml-auto"
             alt="ajouter une annonce"
           />

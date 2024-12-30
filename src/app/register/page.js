@@ -49,7 +49,7 @@ export default function Register() {
           Créez un compte:
         </h2>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/user-mini.png" className=" mb-4" alt="lock"></img>
+          <img src="/images/icons/user-mini.png" className=" mb-4" alt="lock"></img>
           <input
             type="text"
             name="username"
@@ -61,7 +61,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/arobase.png" className=" mb-4" alt="lock"></img>
+          <img src="/images/icons/arobase.png" className=" mb-4" alt="lock"></img>
           <input
             type="email"
             name="email"
@@ -73,7 +73,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/lock.png" className=" mb-4" alt="lock"></img>
+          <img src="/images/icons/lock.png" className=" mb-4" alt="lock"></img>
           <input
             type="password"
             name="password"
@@ -85,7 +85,7 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-row items-center justify-center mx-8">
-          <img src="images/icons/lock.png" className=" mb-4" alt="lock"></img>
+          <img src="/images/icons/lock.png" className=" mb-4" alt="lock"></img>
           <input
             type="password"
             name="confirmPassword"

@@ -139,7 +139,7 @@ export default function SearchBar({ onSearch }) {
                   {sex}
                   <button onClick={handleRemoveSexCross}>
                     <img
-                      src="images/icons/cross.png"
+                      src="/images/icons/cross.png"
                       className="w-3.5 h-3.5 ml-3"
                       alt="delete"
                     />
@@ -214,7 +214,7 @@ export default function SearchBar({ onSearch }) {
           className="bg-fragole text-white lg:text-xl  p-3 rounded-full lg:ml-6 drop-shadow-lg hover:opacity-85"
         >
           <img
-            src="images/icons/search.png"
+            src="/images/icons/search.png"
             className="hover:animate-spin w-10"
             alt="search"
           />

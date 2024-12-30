@@ -86,9 +86,9 @@ export default function Offers() {
                   <p className="flex flex-row">
                     {catOffer.race}
                     {catOffer.sex === "Mâle" ? (
-                      <img src="images/icons/male.png" alt="mâle" className="pl-4" />
+                      <img src="/images/icons/male.png" alt="mâle" className="pl-4" />
                     ) : (
-                      <img src="images/icons/female.png" alt="femelle" className="pl-4" />
+                      <img src="/images/icons/female.png" alt="femelle" className="pl-4" />
                     )}
                   </p>
                 </div>

@@ -84,12 +84,12 @@ export default function Offer() {
             <div className="flex flex-row">
               {/* <div className="ml-6">
                 <Link href={`/profile/${selectedOffer.user_id}`}>
-                  <img src="images/icons/profileCard.png" className="h-8" alt="profil" />
+                  <img src="/images/icons/profileCard.png" className="h-8" alt="profil" />
                 </Link>
               </div> */}
               <div className="ml-36 z-20 pb-5">
                 <img
-                  src="images/icons/profileMsg.png"
+                  src="/images/icons/profileMsg.png"
                   className="mt-1 h-6.5"
                   alt="envoyer un message"
                 />
@@ -103,7 +103,7 @@ export default function Offer() {
               {/* Cat icon + title */}
               <div className="flex flex-row w-1/2 mb-5">
                 <img
-                  src="images/icons/minicat.png"
+                  src="/images/icons/minicat.png"
                   className="w-8 h-8 pb-1"
                   alt="icone de chat"
                 />
@@ -122,7 +122,7 @@ export default function Offer() {
                     to={`/contact?&email=&topic=Signalement d'une annonce&message=Bonjour, je souhaite signaler l'annonce n°${selectedOffer.id} - ${selectedOffer.name}, car `}
                   >
                     <img
-                      src="images/icons/warning.png"
+                      src="/images/icons/warning.png"
                       className="mr-4"
                       alt="signaler l'annonce"
                     />
@@ -148,9 +148,9 @@ export default function Offer() {
                         <td className="text-purple">Sexe:</td>
                         <td className="pl-7">
                           {/* {selectedOffer.sex === "Mâle" ? (
-                            <img src="images/icons/male.png" alt="mâle" />
+                            <img src="/images/icons/male.png" alt="mâle" />
                           ) : (
-                            <img src="images/icons/female.png" alt="femelle" />
+                            <img src="/images/icons/female.png" alt="femelle" />
                           )} */}
                         </td>
                       </tr>
@@ -277,7 +277,7 @@ export default function Offer() {
                   />
                 ) : (
                   <img
-                    src="images/nopicture.png"
+                    src="/images/nopicture.png"
                     alt="Vide"
                     className="max-w-24 max-h-24 mr-4 rounded-lg shadow-lg"
                   />
@@ -295,7 +295,7 @@ export default function Offer() {
                   />
                 ) : (
                   <img
-                    src="images/nopicture.png"
+                    src="/images/nopicture.png"
                     alt="Vide"
                     className="max-w-24 max-h-24 rounded-lg shadow-lg"
                   />

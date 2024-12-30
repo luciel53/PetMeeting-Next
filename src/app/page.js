@@ -30,7 +30,7 @@ export default function Home() {
           {/* Lima picture */}
           <div className="md:w-[20%]  animate-fade-right animate-duration-[800ms] animate-ease-linear">
             <img
-              src="/images/chat-bengal.png"
+              src="//chat-bengal.png"
               className="w-28 md:w-[100%] lg:w-[100%]"
               alt="chat de race bengal"
             />
@@ -55,7 +55,7 @@ export default function Home() {
               Le BG de la semaine
             </div>
             <img
-              src="images/bg.png"
+              src="/images/bg.png"
               className="z-0 max-h-[196px] lg:max-h-[276px] max-w-[196px] lg:max-width-[316px] justify-center mx-auto"
               alt="Le beau chat de la semaine"
             />

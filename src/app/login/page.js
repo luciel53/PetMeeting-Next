@@ -51,7 +51,7 @@ export default function Login() {
         </h2>
         <div className="flex flex-row items-center justify-around lg:w-[90%]">
           <img
-            src="images/icons/user-mini.png"
+            src="/images/icons/user-mini.png"
             className=" mb-4"
             alt="lock"
           ></img>
@@ -67,7 +67,7 @@ export default function Login() {
         </div>
         <div className="flex flex-row items-center justify-around lg:w-[90%]">
           <img
-            src="images/icons/lock.png"
+            src="/images/icons/lock.png"
             className=" mb-4"
             alt="lock"
           ></img>

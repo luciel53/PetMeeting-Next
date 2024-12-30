@@ -87,7 +87,7 @@ export default function Header() {
             aria-label="Page d'accueil de PetMeeting"
           >
             <img
-              src="images/logo.png"
+              src="/images/logo.png"
               className="w-52 md:w-60 lg:w-80 md:mr-4"
               alt="Logo de PetMeeting"
             />
@@ -112,7 +112,7 @@ export default function Header() {
 
             {pathname === "/offers" && (
               <img
-                src="images/icons/paw.png"
+                src="/images/icons/paw.png"
                 alt="paw"
                 className="z-0 absolute -top-2 left-1"
               />
@@ -131,7 +131,7 @@ export default function Header() {
 
               {pathname === "/publish" && (
                 <img
-                  src="images/icons/paw.png"
+                  src="/images/icons/paw.png"
                   alt="paw"
                   className="z-0 absolute -top-2 left-1"
                 />
@@ -150,7 +150,7 @@ export default function Header() {
 
             {pathname === "/members" && (
               <img
-                src="images/icons/paw.png"
+                src="/images/icons/paw.png"
                 alt="paw"
                 className="z-0 absolute -top-2 left-1"
               />
@@ -168,7 +168,7 @@ export default function Header() {
 
             {pathname === "/contact" && (
               <img
-                src="images/icons/paw.png"
+                src="/images/icons/paw.png"
                 alt="paw"
                 className="z-0 absolute -top-2 left-1"
               />
@@ -180,12 +180,12 @@ export default function Header() {
           <div className="flex flex-row my-auto">
             {isAuth ? (
               <Link
-                href={`/Profile/${userId.toString()}`}
+                href={`/profile/${userId.toString()}`}
                 className="flex"
                 aria-label="Page d'accueil de PetMeeting"
               >
                 <img
-                  src="images/icons/user.svg"
+                  src="/images/icons/user.svg"
                   className="-skew-x-45 w-5 md:w-6 lg:w-8 hover:opacity-70 mr-4"
                   alt="Icône de profil utilisateur"
                 />
@@ -193,7 +193,7 @@ export default function Header() {
             ) : (
               <Link href="/login" className="flex" aria-label="Login">
                 <img
-                  src="images/icons/connection.png"
+                  src="/images/icons/connection.png"
                   className="-skew-x-45 w-9 lg:w-14 mr-2 hover:opacity-70"
                   alt="Connexion"
                 />
@@ -202,7 +202,7 @@ export default function Header() {
             {isAuth ? (
               <Link href="messagerie" className="flex" aria-label="messagerie">
                 <img
-                  src="images/icons/messages.svg"
+                  src="/images/icons/messages.svg"
                   className="-skew-x-45 w-5 md:w-6 lg:w-8 hover:opacity-70"
                   alt="Icône de profil utilisateur"
                 />
@@ -210,7 +210,7 @@ export default function Header() {
             ) : (
               <Link href="/register" className="flex" aria-label="Register">
                 <img
-                  src="images/icons/register.png"
+                  src="/images/icons/register.png"
                   className="-skew-x-45 w-10 lg:w-14 hover:opacity-70"
                   alt="Enregistrement"
                 />
@@ -219,7 +219,7 @@ export default function Header() {
             {isAuth && (
               <Link href="/" className="flex" aria-label="logout">
                 <img
-                  src="images/icons/logout.svg"
+                  src="/images/icons/logout.svg"
                   className="-skew-x-45 w-5 md:w-6 lg:w-8 hover:opacity-70 ml-4"
                   alt="Icône de profil utilisateur"
                   onClick={handleLogout}
@@ -241,7 +241,7 @@ export default function Header() {
           className="cursor-pointer mr-2 w-7 md:hidden"
           onClick={toggleMenu}
         >
-          <img src="images/icons/burger.png" alt="Menu hamburger" />
+          <img src="/images/icons/burger.png" alt="Menu hamburger" />
         </button>
       </nav>
     </header>
