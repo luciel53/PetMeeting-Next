@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
+import Image from "next/image";
 // import { useRouter } from "next/router";
 import { useParams } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
@@ -48,24 +49,24 @@ export default function Profile() {
       try {
         const decodedToken = jwtDecode(token);
         setUserId(decodedToken.user_id);
-        fetchUsernameByUserId(decodedToken.user_id);
+        // fetchUsernameByUserId(decodedToken.user_id);
       } catch (error) {
         console.error("Error decoding token", error);
       }
     }
   }, []);
 
-  const fetchUsernameByUserId = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/users/profile/${userId}/`
-      );
-      console.log("USER:::::", response.data);
-      setUsername(response.data.username);
-    } catch (error) {
-      console.log("Error fetching username", error);
-    }
-  };
+  // const fetchUsernameByUserId = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8000/users/profile/${userId}/`
+  //     );
+  //     console.log("USER:::::", response.data);
+  //     setUsername(response.data.username);
+  //   } catch (error) {
+  //     console.log("Error fetching username", error);
+  //   }
+  // };
 
   // to show the garbage icon if user is logged and owner
   useEffect(() => {
@@ -142,14 +143,26 @@ export default function Profile() {
   console.log("owner's id: ", profile);
   console.log("userId ::::::", userId);
 
+  // Refresh token function
   const refreshToken = async () => {
     try {
-      const refreshToken = localStorage.getItem("refresh_token");
+      const VARrefreshToken = localStorage.getItem("refresh_token");
+      console.log("refreshtokkennn:", VARrefreshToken);
+      if (!VARrefreshToken) {
+        console.log(
+          "Aucun refresh token trouvé, l'utilisateur doit se reconnecter."
+        );
+        // Rediriger vers la page de connexion
+        window.location.href = "/login";
+        return;
+      }
       const response = await axios.post(
-        "http://localhost:8000/token/refresh/",
-        { refresh: refreshToken }
+        "http://localhost:8000/auth/token/refresh/",
+        { refresh: VARrefreshToken }
       );
+      console.log("responseeee:", response);
       const newAccessToken = response.data.access;
+      console.log("nouveau access token: ", newAccessToken);
       // Stocker le nouveau jeton d'accès dans le stockage local
       localStorage.setItem("access_token", newAccessToken);
       return newAccessToken;
@@ -228,176 +241,251 @@ export default function Profile() {
   //   }
   // };
 
-  // const handleSaveBirthdate = async () => {
-  //   try {
-  //     console.log("quelle date?????", changedBirthdate);
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         birthdate: changedBirthdate,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setIsEditBirthdate(false);
-  //       setUserBirthdate(changedBirthdate);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         birthdate: changedBirthdate,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving birthdate", error);
-  //   }
-  // };
+  const handleSaveBirthdate = async () => {
+    try {
+      console.log("quelle date?????", changedBirthdate);
+      const accessToken = localStorage.getItem("access_token");
+      const response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          birthdate: changedBirthdate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditBirthdate(false);
+        setUserBirthdate(changedBirthdate);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          birthdate: changedBirthdate,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
 
-  // const handleSaveLocation = async () => {
-  //   try {
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         location: changedLocation,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setIsEditLocation(false);
-  //       setUserLocation(changedLocation);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         location: changedLocation,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving location", error);
-  //   }
-  // };
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
 
-  // const handleSaveBio = async () => {
-  //   try {
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         bio: changedBio,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setIsEditBio(false);
-  //       setUserBio(changedBio);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         bio: changedBio,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving location", error);
-  //   }
-  // };
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
 
-  // const handleSaveWebsite = async () => {
-  //   try {
-  //     console.log("quel site?????", changedWebsite);
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         external_link: changedWebsite,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setIsEditWebsite(false);
-  //       setUserWebsite(changedWebsite);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         external_link: changedWebsite,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving website", error);
-  //   }
-  // };
+  const handleSaveLocation = async () => {
+    try {
+      const accessToken = localStorage.getItem("access_token");
+      console.log("TOKEN:::", accessToken);
+      let response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          location: changedLocation,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditLocation(false);
+        setUserLocation(changedLocation);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          location: changedLocation,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
 
-  // const handleSaveFacebook = async () => {
-  //   try {
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         facebook_link: changedFacebook,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setIsEditFacebook(false);
-  //       setUserFacebook(changedFacebook);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         facebook_link: changedFacebook,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving facebook link", error);
-  //   }
-  // };
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
 
-  // const handleSaveAvatar = async () => {
-  //   try {
-  //     console.log(changedAvatar);
-  //     const accessToken = localStorage.getItem("access_token");
-  //     const response = await axios.put(
-  //       "http://localhost:8000/users/profile/update/",
-  //       {
-  //         avatar: changedAvatar,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-  //     console.log("Avatar update response: ", response.data);
-  //     if (response.status === 200) {
-  //       setIsEditAvatar(false);
-  //       setProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         avatar: changedAvatar,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving avatar", error);
-  //   }
-  // };
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
+
+  const handleSaveBio = async () => {
+    try {
+      const accessToken = localStorage.getItem("access_token");
+      console.log("TOKEN:::", accessToken);
+      let response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          bio: changedBio,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditBio(false);
+        setUserBio(changedBio);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          bio: changedBio,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
+
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
+
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
+
+  const handleSaveWebsite = async () => {
+    try {
+      console.log("quel site?????", changedWebsite);
+      const accessToken = localStorage.getItem("access_token");
+      console.log(accessToken);
+      let response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          external_link: changedWebsite,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditWebsite(false);
+        setUserWebsite(changedWebsite);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          external_link: changedWebsite,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
+
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
+
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
+
+  const handleSaveFacebook = async () => {
+    try {
+      const accessToken = localStorage.getItem("access_token");
+      const response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          facebook_link: changedFacebook,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsEditFacebook(false);
+        setUserFacebook(changedFacebook);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          facebook_link: changedFacebook,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
+
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
+
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
+
+  const handleSaveAvatar = async () => {
+    try {
+      console.log(changedAvatar);
+      const accessToken = localStorage.getItem("access_token");
+      const response = await axios.put(
+        "http://localhost:8000/users/profile/update/",
+        {
+          avatar: changedAvatar,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Avatar update response: ", response.data);
+      if (response.status === 200) {
+        setIsEditAvatar(false);
+        setProfile((prevProfile) => ({
+          ...prevProfile,
+          avatar: changedAvatar,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Le token est expiré, on tente de rafraîchir le token
+        console.log("Token expired, refreshing...");
+
+        const pouet = refreshToken();
+        console.log("Refreshing token:", pouet);
+
+        if (!refreshToken) {
+          console.log("No refresh token available.");
+          return;
+        }
+      }
+      // console.error("Error saving location", error);
+    }
+  };
 
   // console.log("offers:::", catsOffers);
 
@@ -421,12 +509,13 @@ export default function Profile() {
                 {/* email */}
                 <div className="flex flex-row justify-between mx-10 w-[90%]">
                   <p className="flex flex-row text-lg mt-4 mb-4">
-                    <img
+                    <Image
                       src="/images/icons/arobase.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="adresse mail"
-                    ></img>
+                    />
                     {profile ? (
                       <>
                         {isEditEmail ? (
@@ -446,32 +535,37 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditEmail ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditEmail(!isEditEmail)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveEmail}
-                      ></img>
+                      />
                     )
                   )}
                 </div>
                 {/* location */}
                 <div className="flex flex-row justify-between mx-10 w-[90%]">
                   <p className="flex flex-row text-lg mt-4 mb-4">
-                    <img
+                    <Image
                       src="/images/icons/location.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="adresse mail"
-                    ></img>
+                    />
                     {profile ? (
                       <>
                         {isEditLocation ? (
@@ -491,32 +585,37 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditLocation ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditLocation(!isEditLocation)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveLocation}
-                      ></img>
+                      />
                     )
                   )}
                 </div>
                 {/* Birthdate */}
                 <div className="flex flex-row justify-between mx-10 w-[90%]">
                   <p className="flex flex-row text-lg mt-4 mb-4">
-                    <img
+                    <Image
                       src="/images/icons/birthday.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="Date de naissance"
-                    ></img>
+                    ></Image>
                     {profile ? (
                       <>
                         {isEditBirthdate ? (
@@ -540,20 +639,24 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditBirthdate ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditBirthdate(!isEditBirthdate)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveBirthdate}
-                      ></img>
+                      ></Image>
                     )
                   )}
                 </div>
@@ -562,12 +665,13 @@ export default function Profile() {
                 {/* Bio */}
                 <div className="flex flex-row justify-between mx-10 w-[100%]">
                   <p className="flex flex-row text-lg mt-4 mb-4 ">
-                    <img
+                    <Image
                       src="/images/icons/hello.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="adresse mail"
-                    ></img>
+                    />
                     {profile ? (
                       <>
                         {isEditBio ? (
@@ -587,32 +691,37 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditBio ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditBio(!isEditBio)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveBio}
-                      ></img>
+                      />
                     )
                   )}
                 </div>
                 {/* website */}
                 <div className="flex flex-row justify-between mx-10 w-[100%]">
                   <p className="flex flex-row text-lg mt-4 mb-4">
-                    <img
+                    <Image
                       src="/images/icons/www.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="Site web"
-                    ></img>
+                    ></Image>
                     {profile ? (
                       <>
                         {isEditWebsite ? (
@@ -634,32 +743,37 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditWebsite ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditWebsite(!isEditWebsite)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveWebsite}
-                      ></img>
+                      ></Image>
                     )
                   )}
                 </div>
                 {/* facebook */}
                 <div className="flex flex-row justify-between mx-10 w-[100%]">
                   <p className="flex flex-row text-lg mt-4 mb-8">
-                    <img
+                    <Image
                       src="/images/icons/facebook.png"
                       className="mr-6"
                       width={28}
+                      height={28}
                       alt="Facebook"
-                    ></img>
+                    />
                     {profile ? (
                       <>
                         {isEditFacebook ? (
@@ -681,20 +795,24 @@ export default function Profile() {
                     )}
                   </p>
                   {isOwner && !isEditFacebook ? (
-                    <img
+                    <Image
                       src="/images/icons/change.png"
                       alt="modifier"
+                      width={28}
+                      height={28}
                       className=" w-8 h-8 ml-28 mt-3 mr-5 hover:cursor-pointer"
                       onClick={() => setIsEditFacebook(!isEditFacebook)}
                     />
                   ) : (
                     isOwner && (
-                      <img
+                      <Image
                         src="/images/icons/save.png"
                         alt="sauvegarder"
+                        width={28}
+                        height={28}
                         className="w-6 h-6 ml-16 mt-3.5 hover:cursor-pointer"
                         onClick={handleSaveFacebook}
-                      ></img>
+                      />
                     )
                   )}
                 </div>
@@ -713,8 +831,10 @@ export default function Profile() {
                           {profile.username}
                         </p>
                         <div className="w-44 h-44 mx-auto">
-                          <img
-                            src={profile.avatar}
+                          <Image
+                            src={profile.avatar || "/default-avatar.jpg"}
+                            width={400}
+                            height={400}
                             className="w-full h-full object-cover rounded-full"
                             alt={profile.username}
                           />
@@ -727,12 +847,14 @@ export default function Profile() {
                             }
                             className="w-60 ml-5 mt-5"
                           />
-                          <img
+                          <Image
                             src="/images/icons/save.png"
                             alt="sauvegarder"
+                            width={28}
+                            height={28}
                             className="w-6 h-6 ml-10 mt-6"
                             onClick={handleSaveAvatar}
-                          ></img>
+                          />
                         </div>
                       </div>
                     ) : (
@@ -741,29 +863,35 @@ export default function Profile() {
                           {profile.username}
                         </p>
                         <div className="w-44 h-44 mx-auto">
-                          <img
-                            src={profile.avatar}
+                          <Image
+                            src={profile.avatar || "/default-avatar.jpg"}
                             className="w-full h-full object-cover rounded-full"
                             alt={profile.username}
+                            width={400}
+                            height={400}
                           />
                         </div>
                         <div className="mb-0 relative">
                           {isOwner && !isEditAvatar ? (
-                            <img
+                            <Image
                               src="/images/icons/change.png"
                               className=" w-8 ml-48 -mt-3"
                               alt="modifier l'avatar"
+                              width={28}
+                              height={28}
                               onClick={() => setIsEditAvatar(!isEditAvatar)}
                             />
                           ) : (
                             isOwner &&
                             !isEditAvatar(
-                              <img
+                              <Image
                                 src="/images/icons/save.png"
                                 alt="sauvegarder"
+                                width={28}
+                                height={28}
                                 className="w-6 h-6 ml-24 mt-3.5"
                                 onClick={handleSaveAvatar}
-                              ></img>
+                              />
                             )
                           )}
                         </div>
@@ -827,18 +955,22 @@ export default function Profile() {
                     </td>
                     <td>
                       <Link href={`/Annonces/${catOffer.id}`}>
-                        <img
+                        <Image
                           src={`http://localhost:8000${catOffer.picture}`}
                           className="w-9 mt-3 mx-auto"
                           alt={catOffer.name}
+                          width={28}
+                          height={28}
                         />
                       </Link>
                     </td>
                     {connectedUser && (
                       <td>
-                        <img
+                        <Image
                           src="/images/icons/garbage.png"
                           className="w-9 mx-auto hover:cursor-pointer"
+                          width={28}
+                          height={28}
                           onClick={() => handleDelete(catOffer.id)}
                           alt="supprimer l'annonce"
                         />
