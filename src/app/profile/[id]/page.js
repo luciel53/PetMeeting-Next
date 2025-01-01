@@ -469,6 +469,7 @@ export default function Profile() {
           ...prevProfile,
           avatar: changedAvatar,
         }));
+        window.location.reload();
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
